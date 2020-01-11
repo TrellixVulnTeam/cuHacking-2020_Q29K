@@ -1,46 +1,80 @@
-<div *ngIf="page == 'sign-in'" style="max-width: 500px;">
+<div class="wrapper bg-gray-light d-table width-full">
 
-    <h3 class="mb-3">Sign in</h3>
+    <div *ngIf="page == 'sign-in'" class="d-table-cell height-full v-align-middle">
+        <div class="container-sm">
 
-    <form [formGroup]="signInForm">    
-        <div class="input-group mb-3">
-            <input type="email" class="form-control" formControlName="email" id="s-email-input" placeholder="Email address">
-        </div>
-        <div class="input-group mb-3">
-            <input type="password" class="form-control" formControlName="password" id="s-password-input" placeholder="Password">
-        </div>
-        <div class="input-group mb-3">
-            <button ype="submit" class="btn btn-info" style="width: 100%;" (click)="trySignIn(signInForm.value)">Sign in</button>
-        </div>
-    </form>
+            <div class="Box col-8 mx-auto">
+                <form [formGroup]="signInForm">
+                    <div class="Box-header text-center">
+                        <div class="avatar-parent-child d-inline-flex mb-3 mt-3">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/42688372?s=460&v=4" width="48" height="48">
+                        </div>
+                        <h3 class="f2-light">Sign in to Feedbank</h3>
+                    </div>
+                    <div class="Box-body">
+                        <label for="s-email-input">Email address</label>
+                        <input type="email" class="form-control width-full mt-2" placeholder="Enter email address here..." formControlName="email" id="s-email-input">
+                    </div>
+                    <div class="Box-body">
+                        <div class="d-flex flex-items-center">
+                            <label for="s-password-input" class="flex-auto">Password</label>
+                            <button class="btn-link" type="button" disabled>Forgot password?</button>
+                        </div>
+                        <input type="password" class="form-control width-full mt-2" placeholder="Enter password here..." formControlName="password" id="s-password-input">
+                    </div>
+                    <div class="Box-footer text-center">
+                        <button type="submit" class="btn btn-outline width-full" (click)="trySignIn(signInForm.value)">Sign in</button>
+                    </div>
+                </form>
+            </div>
 
-    <div class="input-group mb-3">
-        <button class="btn btn-secondary" style="width: 100%;" (click)="switchPage('create-account')">Create account</button>
+            <div class="Box col-8 mx-auto mt-3">
+                <div class="Box-body text-center bg-gray-light">
+                    Don't have an account?
+                    <button class="btn-link" type="button" (click)="switchPage('create-account')">Create one.</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-</div>
+    <div *ngIf="page == 'create-account'" class="d-table-cell height-full v-align-middle">
+        <div class="container-sm">
 
-<div *ngIf="page == 'create-account'" style="max-width: 500px;">
+            <div class="Box col-8 mx-auto">
+                <form [formGroup]="createAccountForm">
+                    <div class="Box-header text-center">
+                        <div class="avatar-parent-child d-inline-flex mb-3 mt-3">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/42688372?s=460&v=4" width="48" height="48">
+                        </div>
+                        <h3 class="f2-light">Create a Feedbank account.</h3>
+                    </div>
+                    <div class="Box-body">
+                        <label for="c-email-input">Email address</label>
+                        <input type="email" class="form-control width-full mt-2" placeholder="Enter email address here..." formControlName="email" id="c-email-input">
+                    </div>
+                    <div class="Box-body">
+                        <label for="c-password-input" class="flex-auto">Password</label>
+                        <input type="password" class="form-control width-full mt-2" placeholder="Enter password here..." formControlName="password" id="c-password-input">
+                    </div>
+                    <div class="Box-body">
+                        <label for="c-confirm-password-input" class="flex-auto">Confirm password</label>
+                        <input type="password" class="form-control width-full mt-2" placeholder="Enter password again..." formControlName="confirmPassword" id="c-confirm-password-input">
+                    </div>
+                    <div class="Box-footer text-center">
+                        <button type="submit" class="btn btn-outline width-full" (click)="tryCreateAccount(createAccountForm.value)">Create account</button>
+                    </div>
+                </form>
+            </div>
 
-    <h3 class="mb-3">Create account</h3>
+            <div class="Box col-8 mx-auto mt-3">
+                <div class="Box-body text-center bg-gray-light">
+                    Already have an account?
+                    <button class="btn-link" type="button" (click)="switchPage('sign-in')">Sign in.</button>
+                </div>
+            </div>
 
-    <form [formGroup]="createAccountForm">    
-        <div class="input-group mb-3">
-            <input type="email" class="form-control" formControlName="email" id="c-email-input" placeholder="Email address">
         </div>
-        <div class="input-group mb-3">
-            <input type="password" class="form-control" formControlName="password" id="c-password-input" placeholder="Password">
-        </div>
-        <div class="input-group mb-3">
-            <input type="password" class="form-control" formControlName="confirmPassword" id="c-confirm-password-input" placeholder="Confirm password">
-        </div>
-        <div class="input-group mb-3">
-            <button ype="submit" class="btn btn-info" style="width: 100%;" (click)="tryCreateAccount(createAccountForm.value)">Create account</button>
-        </div>
-    </form>
-
-    <div class="input-group mb-3">
-        <button class="btn btn-secondary" style="width: 100%;" (click)="switchPage('sign-in')">Sign in</button>
     </div>
 
 </div>
