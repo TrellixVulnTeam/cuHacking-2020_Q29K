@@ -8,16 +8,26 @@ from sklearn.svm import LinearSVC
 from sklearn.externals import joblib
 
 model_type = "sentiment_analysis"
+break_point = 12500
+size_dataset = 25000
 
-reviews_train = []
-for line in open('../movie_data/full_train.txt', 'r', encoding="utf8"):
-    reviews_train.append(line.strip())
+def create_dataset(model_t, break_p, size):
+    if model_t == "sentiment_analysis":
+        reviews_train = []
+        for line in open('../movie_data/full_train.txt', 'r', encoding="utf8"):
+            reviews_train.append(line.strip())
     
-reviews_test = []
-for line in open('../movie_data/full_test.txt', 'r', encoding="utf8"):
-    reviews_test.append(line.strip())
-
-target = [1 if i < 12500 else 0 for i in range(25000)]
+        reviews_test = []
+        for line in open('../movie_data/full_test.txt', 'r', encoding="utf8"):
+            reviews_test.append(line.strip())
+        
+        target = [1 if i < break_p else 0 for i in range(size)]
+    if model_t == "technicality_analysis":
+        print("technical parsing")
+    if model_t == "relevancy_analysis":
+        print("relevancy_analysis")
+        
+create_dataset(model_type, break_point, size_dataset)
 
 REPLACE_NO_SPACE = re.compile("(\.)|(\;)|(\:)|(\!)|(\?)|(\,)|(\")|(\()|(\))|(\[)|(\])|(\d+)")
 REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
