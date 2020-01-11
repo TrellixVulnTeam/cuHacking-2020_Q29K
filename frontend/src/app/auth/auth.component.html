@@ -1,0 +1,46 @@
+<div *ngIf="page == 'sign-in'" style="max-width: 500px;">
+
+    <h3 class="mb-3">Sign in</h3>
+
+    <form [formGroup]="signInForm">    
+        <div class="input-group mb-3">
+            <input type="email" class="form-control" formControlName="email" id="s-email-input" placeholder="Email address">
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" formControlName="password" id="s-password-input" placeholder="Password">
+        </div>
+        <div class="input-group mb-3">
+            <button ype="submit" class="btn btn-info" style="width: 100%;" (click)="trySignIn(signInForm.value)">Sign in</button>
+        </div>
+    </form>
+
+    <div class="input-group mb-3">
+        <button class="btn btn-secondary" style="width: 100%;" (click)="switchPage('create-account')">Create account</button>
+    </div>
+
+</div>
+
+<div *ngIf="page == 'create-account'" style="max-width: 500px;">
+
+    <h3 class="mb-3">Create account</h3>
+
+    <form [formGroup]="createAccountForm">    
+        <div class="input-group mb-3">
+            <input type="email" class="form-control" formControlName="email" id="c-email-input" placeholder="Email address">
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" formControlName="password" id="c-password-input" placeholder="Password">
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" formControlName="confirmPassword" id="c-confirm-password-input" placeholder="Confirm password">
+        </div>
+        <div class="input-group mb-3">
+            <button ype="submit" class="btn btn-info" style="width: 100%;" (click)="tryCreateAccount(createAccountForm.value)">Create account</button>
+        </div>
+    </form>
+
+    <div class="input-group mb-3">
+        <button class="btn btn-secondary" style="width: 100%;" (click)="switchPage('sign-in')">Sign in</button>
+    </div>
+
+</div>
