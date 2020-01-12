@@ -62,8 +62,11 @@ def train_model(model_type, reviews_train_clean, reviews_test_clean):
 
     filename = "../models/" + model_type + ".sav"
     final = LinearSVC(C=0.01)
-    final.fit(X, target)
-    joblib.dump(final, filename)
+    steps = [('tfvec', ngram_vectorizer), ('svm', final)]
+    vec_clf = Pipeline(steps)
+    vec_clf.fit(X, target)
+    joblib.dump(vec_clf, filename)
+
     print ("Final Accuracy: %s" 
         % accuracy_score(target, final.predict(X_test)))
     return final, ngram_vectorizer
