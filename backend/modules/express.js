@@ -4,6 +4,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 
 const twitter = require('./twitter-api');
+const mongo = require('./mongo');
 
 const config = JSON.parse(fs.readFileSync('./config/config.json'));
 
@@ -21,9 +22,25 @@ module.exports.init = function init() {
     const router = express.Router();
     router.use(express.static(config.frontendDist));
 
-    router.get('/api/get-tweets/:account-:maxId', async function(req, res) {
-        const tweets = await twitter.getTweets(req.params.account, req.params.maxId);
-        console.log(tweets);
+    router.post('/api/add-user', function(req, res) {
+        mongo.addUser(req.body.email);
+    });
+
+    router.get('/api/get-user/:email', async function(req, res) {
+        const user = await mongo.getUser(req.params.email);
+        res.send(user[0]);
+    });
+
+    router.post('/api/add-handle', function(req, res) {
+        mongo.addHandle(req.body.email, req.body.handle);
+    });
+
+    router.post('/api/remove-handle', function(req, res) {
+        mongo.removeHandle(req.body.email, req.body.handle);
+    });
+
+    router.get('/api/get-tweets/:handle-:maxId', async function(req, res) {
+        const tweets = await twitter.getTweets(req.params.handle, req.params.maxId);
         res.send(tweets);
     });
 

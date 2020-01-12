@@ -20,8 +20,28 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  getTweets(account, maxId = 0) {
-    return this.http.get(decodeURI('http://localhost/api/get-tweets/' + account + '-' + maxId))
+  public addUser(email) {
+    return this.http.post('http://localhost/api/add-user', {email})
+      .pipe(retry(3), catchError(this.handleError)).toPromise();
+  }
+
+  public getUser(email) {
+    return this.http.get(decodeURI('http://localhost/api/get-user/' + email))
+      .pipe(retry(3), catchError(this.handleError)).toPromise();
+  }
+
+  public addHandle(email, handle) {
+    return this.http.post('http://localhost/api/add-handle/', {email, handle})
+      .pipe(retry(3), catchError(this.handleError)).toPromise();
+  }
+
+  public removeHandle(email, handle) {
+    return this.http.post('http://localhost/api/remove-handle/', {email, handle})
+      .pipe(retry(3), catchError(this.handleError)).toPromise();
+  }
+
+  public getTweets(handle, maxId = 0) {
+    return this.http.get(decodeURI('http://localhost/api/get-tweets/' + handle + '-' + maxId))
       .pipe(retry(3), catchError(this.handleError)).toPromise();
   }
 

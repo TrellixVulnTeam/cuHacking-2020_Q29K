@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { HttpService } from '../core/services/http.service';
 
 @Component({
   selector: 'app-auth',
@@ -24,7 +25,7 @@ export class AuthComponent implements OnInit {
     confirmPassword: new FormControl('', [Validators.required])
   });
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private httpService: HttpService) { }
 
   async ngOnInit() {
     this.user = await this.authService.getFirebaseUser();
@@ -50,7 +51,10 @@ export class AuthComponent implements OnInit {
     console.log(data);
     if (this.createAccountForm.status === 'VALID' && data.password === data.confirmPassword) {
       await this.authService.doRegister(data.email, data.password)
-        .then(() => this.router.navigate(['dashboard']))
+        .then(user => {
+          this.router.navigate(['dashboard']);
+          this.httpService.addUser(user.user.email);
+        })
         .catch(err => console.log(err));
     }
   }

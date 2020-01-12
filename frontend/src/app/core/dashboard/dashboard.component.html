@@ -1,8 +1,15 @@
 <div class="d-flex flex-column flex-md-row height-full width-full">
     <div class="col-2 border-right p-3">
         <button type="button" class="btn btn-outline btn-sm btn-block" (click)="trySignOut()">Sign out</button>
+        <ng-container *ngIf="this.user">
+            <h4 class="mt-6">Saved handles</h4>
+            <div *ngFor="let handle of this.user.handles" class="mt-3">
+                <button class="btn btn-outline btn-sm" type="button" (click)="setSearch(handle)">@{{handle}}</button>
+                <button class="btn btn-danger btn-sm ml-1" type="button" (click)="removeHandle(handle)">Delete</button>
+            </div>
+        </ng-container>
     </div>
-    <div class="col-10 bg-gray-light flex-1" style="overflow-y: scroll;">
+    <div class="col-10 bg-gray-light flex-1" style="overflow-y: scroll; overflow-x: hidden;">
         <div class="container-xl p-6">
 
             <div class="Box">
@@ -13,16 +20,33 @@
                             <a href="#url" class="subnav-item">Sentiment</a>
                             <a href="#url" class="subnav-item">Technicality</a>
                         </nav>
-                        <div class="subnav-search float-right">
-                            <input type="search" name="name" class="form-control subnav-search-input"/>
-                            <svg width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-search subnav-search-icon" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/>
-                            </svg>
-                        </div>
                       </div>
                 </div>
             </div>
 
+            <h2 class="mt-3" *ngIf="handle && handle != ''">Showing @{{handle}} in {{page}}</h2>
+
+            <div class="subnav-search m-0 mt-3 width-full d-flex">
+                <div class="flex-auto">
+                    <input type="search" name="name" id="search" class="form-control subnav-search-input width-full"/>
+                    <svg width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-search subnav-search-icon" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/>
+                    </svg>
+                </div>
+                <button type="submit" class="btn btn-outline ml-1" (click)="getTweets('')">Search</button>
+                <button *ngIf="this.handle && this.handle != '' && !this.user.handles.includes(this.handle)" class="btn btn-secondary ml-1" (click)="saveHandle()">Save @{{this.handle}} to your profile</button>
+            </div>
+
+            <div *ngIf="tweets.length == 0" class="Box mt-3">
+                <div class="Box-row">
+                    <div class="blankslate p-3">
+                        <h3 class="mb-1" *ngIf="this.handle != ''">There are no tweets to show.</h3>
+                        <p class="mb-0">
+                            Description here.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             <div *ngFor="let tweet of tweets" class="Box mt-3">
                 <div class="Box-row">                    
@@ -38,7 +62,7 @@
                 </div>
             </div>
 
-            <button *ngIf="tweets.length > 0" type="button" class="btn btn-outline btn-block mt-3" (click)="getTweets('rbc', maxId)">Load more</button>
+            <button *ngIf="tweets.length > 0 && tweets.length % 100 == 0" type="button" class="btn btn-outline btn-block mt-3" (click)="getTweets(this.handle, this.maxId)">Load more</button>
 
         </div>
     </div>

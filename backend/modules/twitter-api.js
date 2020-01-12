@@ -10,10 +10,10 @@ const twitter = new Twitter({
   access_token_secret: twitterApi.accessTokenSecret
 });
 
-module.exports.getTweets = async function getTweets(account, maxId) {
+module.exports.getTweets = async function getTweets(handle, maxId) {
     if (maxId == 0) {
         return new Promise(function(resolve, reject) {
-            twitter.get('search/tweets', { q: `@${account} since:2019-01-01 -filter:retweets`, tweet_mode: 'extended', count: 100 }, function(err, data, response) {
+            twitter.get('search/tweets', { q: `@${handle} since:2019-01-01 -filter:retweets`, tweet_mode: 'extended', count: 100 }, function(err, data, response) {
                 let tweets = [];
                 for (let i = 0; i < data.statuses.length; i++) {
                     const tweet = data.statuses[i];
@@ -33,7 +33,7 @@ module.exports.getTweets = async function getTweets(account, maxId) {
         });
     } else {
         return new Promise(function(resolve, reject) {
-            twitter.get('search/tweets', { q: `@${account} since:2019-01-01 -filter:retweets`, tweet_mode: 'extended', count: 100, max_id: maxId }, function(err, data, response) {
+            twitter.get('search/tweets', { q: `@${handle} since:2019-01-01 -filter:retweets`, tweet_mode: 'extended', count: 100, max_id: maxId }, function(err, data, response) {
                 let tweets = [];
                 for (let i = 0; i < data.statuses.length; i++) {
                     const tweet = data.statuses[i];
